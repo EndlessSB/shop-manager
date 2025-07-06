@@ -1,16 +1,17 @@
 # Shop Manager
 
-- This is litterally just a managment thing for shops by design
+- This is a simple POS style product managment style system. Written to be used in the command line
 
-- IDk why i made it
+## Setup Guide
 
-- This is here ig now Enjoy!
+- Currently unfinished !
 
 ## Info:
 
-- This is something I will soley code ig
+- This is a project im doing for fun :)
+
+- This is made to help people aswell -- I hope you guys enjoy using it!
 
 ## Contributing
 
-- Feel free to fork this, I will not be looking at pull requests. Please use issues if there is something majorly wrong tho [My stance on this project will change later on]
-
+- I am not sure how this will work, but feel free to make pull requests and such. I will get to them eventually lol
