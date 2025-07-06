@@ -1,8 +1,12 @@
 # Write your code here :
 import time as t
 import random as r
+
+import pwinput
+
 import input_managment.main
-import config
+import working_config
+from user_authentication import user_auth
 
 
 # Managing modes [This is so cooked]
@@ -20,7 +24,23 @@ def mode_to_text(mode):
     else:
         return "broken"
 
-while True:
-    user_input = input(f"{mode_to_text(config.mode)} | --> ")
+print("Welcome to the POS system!")
 
-    input_managment.main.handle_input(user_input)
+print("")
+print("")
+
+print("Login")
+print("")
+username = input("Please Enter your Username: ")
+password = pwinput.pwinput(prompt="Enter your Password: ")
+
+login_status = user_auth.login(username, password)
+
+if login_status:
+    while True:
+        user_input = input(f"{mode_to_text(working_config.mode)} | --> ")
+
+        input_managment.main.handle_input(user_input)
+else:
+    print("Invalid Username or Password")
+    exit()

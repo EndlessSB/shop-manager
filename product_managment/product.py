@@ -2,7 +2,8 @@ import time
 import json
 from datetime import datetime
 import os
-
+from config_management.config import config
+from discord_intergration import discord
 
 products_data = "products.json"
 
@@ -36,6 +37,9 @@ def create_product(product_name, price):
     try:
         with open(products_data, "w") as file:
             json.dump(products, file, indent=4)
+
+        if config.discord_integration_status:
+            discord.send_webhook_embed(product_name, price)
 
         return True
     except Exception as e:
