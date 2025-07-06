@@ -5,8 +5,7 @@ import input_managment.main
 import config
 
 
-## Basic Mode Management
-
+# Managing modes [This is so cooked]
 def mode_to_text(mode):
     if mode == 0:
         return "Default"
