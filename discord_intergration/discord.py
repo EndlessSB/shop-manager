@@ -67,7 +67,7 @@ def product_create_alert(product, price):
         description="",
         color=0xff0000,  # red
         fields=[
-            {"name": "Price", "Current Price": price, "inline": False},
+            {"name": "Price", "value": f"${price}", "inline": False},
         ],
         footer_text="Store Manager Intergration",
         author_name="Managing",

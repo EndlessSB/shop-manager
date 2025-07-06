@@ -6,41 +6,42 @@ from  user_authentication import user_auth
 import pwinput
 import working_config
 from product_managment import product
+from config_management.config import config
+from product_managment import sales_management
 
 
 def handle_input(user_input):
     if working_config.mode == 1:
         if user_input.startswith("update"):
-            parts = user_input.split(maxsplit=2)  # split into at most 3 parts: "update", "config_option", "value"
+            parts = user_input.split(maxsplit=2)
 
             if len(parts) < 3:
                 print("Invalid Config Update: missing config_option or value")
             else:
                 _, config_option, value_str = parts
 
-                # Check if value is boolean (True/False without quotes)
                 if value_str == "True":
                     value = True
                 elif value_str == "False":
                     value = False
-                # Check if value is quoted string
                 elif (value_str.startswith('"') and value_str.endswith('"')) or (
                         value_str.startswith("'") and value_str.endswith("'")):
-                    # strip quotes
                     value = value_str[1:-1]
                 else:
-                    # Optional: try to convert to int or float, otherwise keep as string
                     try:
                         if '.' in value_str:
                             value = float(value_str)
                         else:
                             value = int(value_str)
                     except ValueError:
-                        value = value_str  # fallback to string
+                        value = value_str
 
-                # Now you have config_option and value correctly typed
-                print(f"Updating config option '{config_option}' to value: {value} (type: {type(value).__name__})")
-
+                # Actually perform the update
+                try:
+                    config.update(config_option, value)
+                    print(f"Updated '{config_option}' to {value} (type: {type(value).__name__})")
+                except AttributeError as e:
+                    print(f"Error: {e}")
 
     if user_input.startswith("mode"):
         parts = user_input.split("mode", 1)
@@ -48,7 +49,7 @@ def handle_input(user_input):
 
         if result == "":
             print("Invalid Mode")
-        
+
         elif result == "manager":
             username = input("Please Enter your Username: ")
             password = pwinput.pwinput(prompt="Enter password: ")
@@ -93,6 +94,19 @@ def handle_input(user_input):
             else:
                 print("Product Created")
 
+        elif result == "delete":
+            if working_config.mode != 4:
+                print("You need to be a manager to delete product!")
+                return
+
+            product_name = input("Please Enter Product Name: ")
+            product_data = product.delete_product(product_name)
+            if product_data == False:
+                print("Product Deletion Failed")
+                return
+
+            print("Product Deleted Successfully!")
+
         elif result == "price":
 
             product_name = input("Please Enter Product Name: ")
@@ -101,10 +115,27 @@ def handle_input(user_input):
 
             print(f"{product_name}: {price}")
 
+        elif result == "sale":
+            product_name = input("Please Enter Product Name: ")
+            quantity = input("Please Enter Quantity: ")
+            quantity = int(quantity)
+
+            status = sales_management.register_sale(product_name, quantity)
+
+            if status == False:
+                print("Sale Creation Failed")
+                return
+
+            print("Product Created")
+
+        elif result == "profits":
+            print("Fetching Profit Report!")
+
+            profit_report = sales_management.get_sales_report()
+
+            print(f"Total Revenue: ${profit_report['total_revenue']}")
+
+
         else:
             print("Invalid Subcommand")
 
-
-
-    else:
-        print("Invalid Input")

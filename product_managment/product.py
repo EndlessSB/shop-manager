@@ -39,7 +39,7 @@ def create_product(product_name, price):
             json.dump(products, file, indent=4)
 
         if config.discord_integration_status:
-            discord.send_webhook_embed(product_name, price)
+            discord.product_create_alert(product_name, price)
 
         return True
     except Exception as e:
@@ -54,3 +54,21 @@ def lookup_price(product_name):
 
     return float(products_data["price"])
 
+def delete_product(product_name):
+    global products  # Need to modify the global list
+
+    product = get_product(product_name)
+    if not product:
+        print(f"Product '{product_name}' not found.")
+        return False
+
+    products = [p for p in products if p.get("item_name") != product_name]
+
+    try:
+        with open(products_data, "w") as file:
+            json.dump(products, file, indent=4)
+        print(f"Product '{product_name}' deleted.")
+        return True
+    except Exception as e:
+        print(f"Error deleting product: {e}")
+        return False
