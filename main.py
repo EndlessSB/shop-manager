@@ -40,6 +40,9 @@ if login_status:
     while True:
         user_input = input(f"{mode_to_text(working_config.mode)} | --> ")
 
+        if user_input == "exit":
+            exit()
+
         input_managment.main.handle_input(user_input)
 else:
     print("Invalid Username or Password")
