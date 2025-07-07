@@ -6,7 +6,7 @@
 
 ## Setup Guide
 
-1. Install (python)[https://www.python.org/downloads/]
+1. Install [python][https://www.python.org/downloads/]
 
 2. Run setup.bat [Linux Version Coming soon]
 
