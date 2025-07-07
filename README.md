@@ -1,6 +1,8 @@
 # Shop Manager
 
-- This is a simple POS style product managment style system. Written to be used in the command line
+- This is an example of  a shop management system, lacking the stock and the payment processing [potentially coming later] features, It is intended to either be used in the terminal, or via the Web UI provided
+
+- **Notice: configuration is only currently supported via the Terminal, (You can still add products, just not configure the discord intergration)**
 
 ## Setup Guide
 
