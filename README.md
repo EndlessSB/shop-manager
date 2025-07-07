@@ -4,7 +4,15 @@
 
 ## Setup Guide
 
-- Currently unfinished !
+1. Install (python)[https://www.python.org/downloads/]
+
+2. Run setup.bat [Linux Version Coming soon]
+
+3. Follow the instructions
+
+4. Run startup.bat or main.py
+
+5. Enjoy
 
 ## Info:
 
