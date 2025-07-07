@@ -72,3 +72,6 @@ def delete_product(product_name):
     except Exception as e:
         print(f"Error deleting product: {e}")
         return False
+
+def get_all_products():
+    return products

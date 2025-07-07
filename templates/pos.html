@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>POS System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pos.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Point of Sale</h1>
+
+        <form id="sale-form" method="POST" action="/sales/create">
+            <label for="product">Select Product:</label>
+            <select name="product" id="product" required>
+                {% for item in products %}
+                    <option value="{{ item.item_name }}">{{ item.item_name }} - ${{ item.price }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" id="quantity" min="1" required>
+
+            <button type="submit">Submit Sale</button>
+        </form>
+
+        <div id="status"></div>
+
+        <p><a href="/">← Back to Dashboard</a></p>
+    </div>
+
+    <script>
+        const form = document.getElementById('sale-form');
+        const statusDiv = document.getElementById('status');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const params = new URLSearchParams(formData);
+
+            const response = await fetch("/sales/create", {
+                method: "POST",
+                body: params
+            });
+
+            const text = await response.text();
+
+            statusDiv.innerHTML = `<p class="${response.ok ? 'success' : 'error'}">${text}</p>`;
+
+            if (response.ok) {
+                form.reset();
+            }
+        });
+    </script>
+</body>
+</html>

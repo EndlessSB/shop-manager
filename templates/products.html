@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
+</head>
+<body>
+    <div class="products">
+        <h2>Product Manager</h2>
+        <form method="POST" action="/products/create">
+            <input name="name" placeholder="Product Name" required>
+            <input name="price" type="number" step="0.01" placeholder="Price" required>
+            <button type="submit">Create Product</button>
+        </form>
+
+        <form method="POST" action="/products/delete">
+            <input name="name" placeholder="Product Name to Delete" required>
+            <button type="submit">Delete Product</button>
+        </form>
+
+        <p><a href="/">← Back to Dashboard</a></p>
+    </div>
+</body>
+</html>

@@ -7,6 +7,8 @@ import pwinput
 import input_managment.main
 import working_config
 from user_authentication import user_auth
+import web_ui
+import threading
 
 
 # Managing modes [This is so cooked]
@@ -24,26 +26,48 @@ def mode_to_text(mode):
     else:
         return "broken"
 
-print("Welcome to the POS system!")
 
-print("")
-print("")
+if __name__ == "__main__":
+    # Start web UI thread
+    web_thread = threading.Thread(target=web_ui.run_web)
+    web_thread.daemon = True
+    web_thread.start()
 
-print("Login")
-print("")
-username = input("Please Enter your Username: ")
-password = pwinput.pwinput(prompt="Enter your Password: ")
+    # Get and print IP
 
-login_status = user_auth.login(username, password)
+    # Fancy ASCII banner
+    print(r"""
+  ____  _                 __  __                                    
+ / ___|| |__   ___  _ __ |  \/  | __ _ _ __   __ _  __ _  ___ _ __ 
+ \___ \| '_ \ / _ \| '_ \| |\/| |/ _` | '_ \ / _` |/ _` |/ _ \ '__|
+  ___) | | | | (_) | |_) | |  | | (_| | | | | (_| | (_| |  __/ |   
+ |____/|_| |_|\___/| .__/|_|  |_|\__,_|_| |_|\__,_|\__, |\___|_|   
+                   |_|                             |___/           
+    """)
 
-if login_status:
-    while True:
-        user_input = input(f"{mode_to_text(working_config.mode)} | --> ")
+    print(f"[ Web UI running at: http://127.0.0.1:5000 ]\n")
+    print("=" * 60)
+    print("LOGIN")
+    print("=" * 60)
 
-        if user_input == "exit":
-            exit()
+    username = input("Username: ")
+    password = pwinput.pwinput("Password: ")
 
-        input_managment.main.handle_input(user_input)
-else:
-    print("Invalid Username or Password")
-    exit()
+    login_status = user_auth.login(username, password)
+
+    if login_status:
+        print("")
+        print("")
+        print("")
+        print("")
+        print("")
+        print("")
+        print("")
+        while True:
+            user_input = input(f"{mode_to_text(working_config.mode)} | --> ")
+            if user_input == "exit":
+                exit()
+            input_managment.main.handle_input(user_input)
+    else:
+        print("Invalid Username or Password")
+        exit()
