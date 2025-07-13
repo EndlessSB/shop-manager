@@ -60,6 +60,23 @@ def handle_input(user_input):
                 else:
                     print("Failed to update stock")
 
+        elif user_input.startswith("cost"):
+            parts = user_input.split(maxsplit=2)
+
+            if len(parts) < 3:
+                print("Invalid cost Update")
+            else:
+                _, product_name, cost = parts
+
+                stock_status = stock.update_cost(product_name, float(cost))
+
+                if stock_status:
+                    print(f"Successfully Updated {product_name}'s cost to {cost}")
+
+
+                else:
+                    print("Failed to update stock")
+
     if user_input.startswith("mode"):
         parts = user_input.split("mode", 1)
         result = parts[1].strip() if len(parts) > 1 else ""
@@ -133,6 +150,7 @@ def handle_input(user_input):
 
             print(f"{product_name}: {price}")
 
+
         elif result == "sale":
             product_name = input("Please Enter Product Name: ")
             quantity = input("Please Enter Quantity: ")
@@ -160,6 +178,12 @@ def handle_input(user_input):
 
             print(f"{product_name}'s Stock is {amount_of_stock}")
 
+        elif result == "cost":
+            product_name = input("Please Enter Product Name: ")
+
+            cost = stock.get_cost(product_name)
+
+            print(f"{product_name}'s cost is {cost}")
         else:
             print("Invalid Subcommand")
 

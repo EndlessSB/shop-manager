@@ -2,6 +2,7 @@ import json
 import os
 from datetime import datetime
 from product_managment.product import get_product
+from product_managment import stock
 
 sales_log_path = "sales.json"
 
@@ -43,6 +44,7 @@ def register_sale(product_name, quantity):
         print(f"Error registering sale: {e}")
         return False
 
+
 def get_sales_report():
     if not os.path.exists(sales_log_path):
         return {}
@@ -52,7 +54,9 @@ def get_sales_report():
 
     report = {
         "products": {},
-        "total_revenue": 0.0
+        "total_revenue": 0.0,
+        "total_cost": 0.0,
+        "total_profit": 0.0
     }
 
     for sale in sales:
@@ -60,15 +64,28 @@ def get_sales_report():
         total = sale["total"]
         quantity = sale["quantity"]
 
+        # Get cost per unit
+        unit_cost = stock.get_cost(product)
+        total_cost = unit_cost * quantity
+        profit = total - total_cost
+
         if product not in report["products"]:
             report["products"][product] = {
                 "quantity": 0,
-                "revenue": 0.0
+                "revenue": 0.0,
+                "cost": 0.0,
+                "profit": 0.0
             }
 
         report["products"][product]["quantity"] += quantity
         report["products"][product]["revenue"] += total
+        report["products"][product]["cost"] += total_cost
+        report["products"][product]["profit"] += profit
+
         report["total_revenue"] += total
+        report["total_cost"] += total_cost
+        report["total_profit"] += profit
 
     return report
+
 
