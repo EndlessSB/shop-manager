@@ -6,7 +6,8 @@ class Config:
         self._path = path
         self._defaults = {
             "discord_integration_status": False,
-            "discord_integration_link": ""
+            "discord_integration_link": "",
+            "flask_port": 5000
         }
         self._config = {}
 

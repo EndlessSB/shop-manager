@@ -8,6 +8,7 @@ import working_config
 from product_managment import product
 from config_management.config import config
 from product_managment import sales_management
+from product_managment import stock
 
 
 def handle_input(user_input):
@@ -42,6 +43,22 @@ def handle_input(user_input):
                     print(f"Updated '{config_option}' to {value} (type: {type(value).__name__})")
                 except AttributeError as e:
                     print(f"Error: {e}")
+        elif user_input.startswith("stock"):
+            parts = user_input.split(maxsplit=2)
+
+            if len(parts) < 3:
+                print("Invalid Stock Update")
+            else:
+                _, product_name, stock_amount = parts
+
+                stock_status = stock.update_stock(product_name, int(stock_amount))
+
+                if stock_status:
+                    print(f"Successfully Updated {product_name}'s Stock to {stock_amount}")
+
+
+                else:
+                    print("Failed to update stock")
 
     if user_input.startswith("mode"):
         parts = user_input.split("mode", 1)
@@ -67,6 +84,7 @@ def handle_input(user_input):
 
             else:
                 print("Invalid Username Or Pass")
+
 
         elif result == "config":
             working_config.mode = 1
@@ -135,6 +153,12 @@ def handle_input(user_input):
 
             print(f"Total Revenue: ${profit_report['total_revenue']}")
 
+        elif result == "stock":
+            product_name = input("Please Enter Product Name: ")
+
+            amount_of_stock = stock.get_stock(product_name)
+
+            print(f"{product_name}'s Stock is {amount_of_stock}")
 
         else:
             print("Invalid Subcommand")

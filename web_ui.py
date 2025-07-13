@@ -1,13 +1,15 @@
 from flask import Flask, render_template, request, redirect, session, url_for, jsonify
 import logging
 import sys
+import os
+from config_management import config
 
 from user_authentication import user_auth
 from product_managment import product
 from product_managment import sales_management
 
 app = Flask(__name__)
-app.secret_key = "your-secret-key"  # Replace with a secure key in production
+app.secret_key = os.urandom(32)  # Replace with a secure key in production
 
 # Hide startup banner
 log = logging.getLogger('werkzeug')

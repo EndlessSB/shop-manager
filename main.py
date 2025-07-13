@@ -9,7 +9,7 @@ import working_config
 from user_authentication import user_auth
 import web_ui
 import threading
-
+from product_managment import stock
 
 # Managing modes [This is so cooked]
 def mode_to_text(mode):
@@ -63,6 +63,8 @@ if __name__ == "__main__":
         print("")
         print("")
         print("")
+        # Syncing Stock
+        stock.sync_all_products_into_stock()
         while True:
             user_input = input(f"{mode_to_text(working_config.mode)} | --> ")
             if user_input == "exit":

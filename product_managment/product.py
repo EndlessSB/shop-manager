@@ -4,6 +4,7 @@ from datetime import datetime
 import os
 from config_management.config import config
 from discord_intergration import discord
+from product_managment import stock
 
 products_data = "products.json"
 
@@ -34,6 +35,7 @@ def create_product(product_name, price):
     }
 
     products.append(product_data)
+    stock.sync_all_products_into_stock()
     try:
         with open(products_data, "w") as file:
             json.dump(products, file, indent=4)
