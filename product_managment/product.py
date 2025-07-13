@@ -8,7 +8,6 @@ from product_managment import stock
 
 products_data = "products.json"
 
-# Load or initialize the users table (a list)
 if os.path.exists(products_data):
     with open(products_data, "r") as file:
         try:
@@ -35,13 +34,14 @@ def create_product(product_name, price):
     }
 
     products.append(product_data)
-    stock.sync_all_products_into_stock()
     try:
         with open(products_data, "w") as file:
             json.dump(products, file, indent=4)
 
         if config.discord_integration_status:
             discord.product_create_alert(product_name, price)
+        
+        stock.sync_all_products_into_stock() # More logical Place then previously
 
         return True
     except Exception as e:
