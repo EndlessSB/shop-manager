@@ -170,6 +170,7 @@ def handle_input(user_input):
             profit_report = sales_management.get_sales_report()
 
             print(f"Total Revenue: ${profit_report['total_revenue']}")
+            print(f"Total Profit: ${profit_report['total_profit']}")
 
         elif result == "stock":
             product_name = input("Please Enter Product Name: ")

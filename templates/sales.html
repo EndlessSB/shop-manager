@@ -16,12 +16,30 @@
         fetch("/sales/report")
             .then(res => res.json())
             .then(data => {
-                let html = `<h3>Total Revenue: $${data.total_revenue.toFixed(2)}</h3><ul>`;
+                let html = `
+                    <h3>Total Revenue: $${data.total_revenue.toFixed(2)}</h3>
+                    <h3>Total Profit: $${data.total_profit.toFixed(2)}</h3>
+                    <h3>Total Cost: $${data.total_cost.toFixed(2)}</h3>
+                    <ul>
+                `;
                 for (let product in data.products) {
-                    html += `<li>${product}: ${data.products[product].quantity} sold, $${data.products[product].revenue.toFixed(2)}</li>`;
+                    let p = data.products[product];
+                    html += `
+                        <li>
+                            <strong>${product}</strong>: 
+                            ${p.quantity} sold, 
+                            Revenue: $${p.revenue.toFixed(2)}, 
+                            Cost: $${p.cost.toFixed(2)}, 
+                            Profit: $${p.profit.toFixed(2)}
+                        </li>
+                    `;
                 }
                 html += `</ul>`;
                 document.getElementById("report").innerHTML = html;
+            })
+            .catch(err => {
+                console.error("Failed to load report:", err);
+                document.getElementById("report").innerHTML = "<p>Error loading report.</p>";
             });
     </script>
 </body>
